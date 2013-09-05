@@ -83,6 +83,7 @@ const prog_AppInfo Arpeggiator::app_info_ PROGMEM = {
   NULL, // void (*OnProgramChange)(uint8_t, uint8_t);
   NULL, // void (*OnPitchBend)(uint8_t, uint16_t);
   NULL, // void (*OnSysExByte)(uint8_t);
+  &OnSongPosition, // (*OnSongPosition)(uint16_t);    // lauterZEIT
   &OnClock, // void (*OnClock)();
   &OnStart, // void (*OnStart)();
   &OnContinue, // void (*OnContinue)();
@@ -114,7 +115,7 @@ void Arpeggiator::OnInit() {
   ui.AddPage(STR_RES_CHN, UNIT_INDEX, 0, 15);
   ui.AddPage(STR_RES_DIR, STR_RES_UP, 0, 3);
   ui.AddPage(STR_RES_OCT, UNIT_INTEGER, 1, 4);
-  ui.AddPage(STR_RES_PTN, UNIT_INDEX, 0, 21);
+  ui.AddPage(STR_RES_PTN, UNIT_INDEX, 0, 23);  // lauterZEIT added 2 patterns
   ui.AddPage(STR_RES_DIV, STR_RES_2_1, 0, 16);
   ui.AddPage(STR_RES_DUR, STR_RES_2_1, 0, 16);
   ui.AddPage(STR_RES_LAT, STR_RES_OFF, 0, 1);
@@ -143,6 +144,27 @@ void Arpeggiator::OnRawMidiData(
 }
 
 /* static */
+void Arpeggiator::OnSongPosition(uint16_t spp) {
+  if (clk_mode_ == CLOCK_MODE_EXTERNAL) {
+    running_ = 0;
+    // adjust beat/pattern clock
+    tick_ = ((uint8_t)(spp & 0x001F) * 6);  // intermediate value
+    bitmask_ = (tick_ / midi_clock_prescaler_) & 0x0F;  // temp value
+    tick_ %= midi_clock_prescaler_;
+
+    // app.Send3(0xaf, tick_, bitmask_);  // for debug, my printf
+    // app.SendNow(0xf6);  // tune request - use for debug
+      
+    // rewind one tick
+    if (tick_ == 0) tick_ = midi_clock_prescaler_ - 1;
+    else --tick_;
+      
+    bitmask_ = 1 << bitmask_;
+    current_octave_ == 127;
+  }
+}
+    
+/* static */
 void Arpeggiator::OnContinue() {
   if (clk_mode_ == CLOCK_MODE_EXTERNAL) {
     running_ = 1;
@@ -153,6 +175,7 @@ void Arpeggiator::OnContinue() {
 void Arpeggiator::OnStart() {
   if (clk_mode_ == CLOCK_MODE_EXTERNAL) {
     Start();
+    running_ = 1;
   }
 }
 
@@ -191,6 +214,7 @@ void Arpeggiator::OnNoteOn(
     if (idle_ticks_ >= 96) {
       clock.Start();
       Start();
+      running_ = 1;
       app.SendNow(0xfa);
     }
     idle_ticks_ = 0;
@@ -271,7 +295,7 @@ void Arpeggiator::Tick() {
 
 /* static */
 void Arpeggiator::Start() {
-  running_ = 1;
+  // running_ = 1;
   bitmask_ = 1;
   tick_ = midi_clock_prescaler_ - 1;
   current_direction_ = (direction_ == ARPEGGIO_DIRECTION_DOWN ? -1 : 1);

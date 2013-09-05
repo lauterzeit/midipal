@@ -52,7 +52,7 @@ static const prog_char str_res_settings[] PROGMEM = "settings";
 static const prog_char str_res_notenuke[] PROGMEM = "notenuke";
 static const prog_char str_res_sysxdump[] PROGMEM = "sysxdump";
 static const prog_char str_res__reset_[] PROGMEM = "!reset!";
-static const prog_char str_res___v1_3__[] PROGMEM = "¥ v1.3 ¥";
+static const prog_char str_res___v1_3__[] PROGMEM = "¥ z1.3 ¥";
 static const prog_char str_res_sndoff[] PROGMEM = "sndOff";
 static const prog_char str_res_rstctr[] PROGMEM = "rstCtr";
 static const prog_char str_res_notoff[] PROGMEM = "notOff";
@@ -541,8 +541,8 @@ PROGMEM const prog_char* string_table[] = {
 
 const prog_uint16_t lut_res_arpeggiator_patterns[] PROGMEM = {
    21845,  62965,  46517,  54741,  43861,  22869,  38293,   2313,
-   37449,  21065,  18761,  54553,  27499,  23387,  30583,  28087,
-   22359,  28527,  30431,  43281,  28609,  53505,
+   37449,  21065,  18761,  54553,  27499,  23387,  30583,  65535,
+   28087,  53713,  22359,  28527,  30431,  43281,  28609,  53505,
 };
 const prog_uint16_t lut_res_drum_patterns[] PROGMEM = {
        0,  18705,   4369,  18761,   1281,    257,  21065,    261,

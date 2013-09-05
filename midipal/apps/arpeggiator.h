@@ -38,6 +38,7 @@ class Arpeggiator {
   static void OnNoteOff(uint8_t channel, uint8_t note, uint8_t velocity);
   static void OnControlChange(uint8_t, uint8_t, uint8_t);
 
+  static void OnSongPosition(uint16_t spp);     // lauterZEIT
   static void OnContinue();
   static void OnStart();
   static void OnStop();

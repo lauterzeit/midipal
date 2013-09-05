@@ -71,6 +71,7 @@ struct AppInfo {
   void (*OnProgramChange)(uint8_t, uint8_t);
   void (*OnPitchBend)(uint8_t, uint16_t);
   void (*OnSysExByte)(uint8_t);
+  void (*OnSongPosition)(uint16_t);    // lauterZEIT
   void (*OnClock)();
   void (*OnStart)();
   void (*OnContinue)();
@@ -168,6 +169,12 @@ class App {
       // Forwarding will not be handled by OnRawByte, nor by OnRawMidiData,
       // so we do it explicitly here.
       SendNow(sysex_byte);
+    }
+  }
+
+  static void OnSongPosition(uint16_t sp_pointer) {
+    if (app_info_.OnSongPosition) {
+      (*app_info_.OnSongPosition)(sp_pointer);             // lauterZEIT
     }
   }
 

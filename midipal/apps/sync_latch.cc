@@ -60,9 +60,10 @@ const prog_AppInfo SyncLatch::app_info_ PROGMEM = {
   NULL, // void (*OnProgramChange)(uint8_t, uint8_t);
   NULL, // void (*OnPitchBend)(uint8_t, uint16_t);
   NULL, // void (*OnSysExByte)(uint8_t);
+  &OnSongPosition, // (*OnSongPosition)(uint16_t);    // lauterZEIT
   &OnClock, // void (*OnClock)();
   &OnStart, // void (*OnStart)();
-  NULL, // void (*OnContinue)();
+  &OnContinue, // void (*OnContinue)();
   &OnStop, // void (*OnStop)();
   NULL, // uint8_t (*CheckChannel)(uint8_t);
   &OnRawByte, // void (*OnRawByte)(uint8_t);
@@ -101,6 +102,22 @@ void SyncLatch::OnRawByte(uint8_t byte) {
   app.SendNow(byte);
 }
 
+/* static */
+void SyncLatch::OnSongPosition(uint16_t spp) {
+// step_counter_ = ( (unit8_t)(spp % ((num_beats_ * 16)/beat_division_)) * 6) / 24;    // lauterZEIT  ? timebase == 24 PPQN ?
+
+//  beat_counter_ = step_counter % num_ticks_per_beat;                                  // lauterZEIT
+        
+  state_ = STATE_ARMED;
+}
+    
+/* static */
+void SyncLatch::OnContinue() {        
+//  beat_counter_ = step_counter % num_ticks_per_beat;       // lauterZEIT - in case MIDI Clocks occur before CONTINUE: fix beat counter
+        
+    state_ = STATE_RUNNING;                                  // lauterZEIT
+}
+    
 /* static */
 void SyncLatch::OnStart() {
   beat_counter_ = 0;

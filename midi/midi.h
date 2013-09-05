@@ -69,6 +69,7 @@ struct MidiDevice {
   static void SysExEnd() { }
   static void BozoByte(uint8_t bozo_byte) { }
 
+  static void SongPosition(uint16_t) { }                                   // lauterZEIT
   static void Clock() { }
   static void Start() { }
   static void Continue() { }
@@ -136,7 +137,7 @@ void MidiStreamParser<Device>::PushByte(uint8_t byte) {
           expected_data_size_ = 2;
           break;
         case 0xf0:
-          if (lo > 0 && lo < 3) {
+          if ((lo > 0) && (lo < 3)) {
             expected_data_size_ = 2;
           } else if (lo >= 4) {
             expected_data_size_ = 0;
@@ -253,7 +254,10 @@ void MidiStreamParser<Device>::MessageReceived(uint8_t status) {
           Device::SysExByte(data_[0]);
           break;
         case 0x1:
+          break;
         case 0x2:
+          Device::SongPosition((static_cast<uint16_t>(data_[1]) << 7) + data_[0]);   // lauterZEIT
+          break;
         case 0x3:
         case 0x4:
         case 0x5:

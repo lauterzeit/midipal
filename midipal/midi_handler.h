@@ -81,6 +81,10 @@ struct MidiHandler : public midi::MidiDevice {
   
   static void BozoByte(uint8_t bozo_byte) { }
 
+  static void SongPosition(uint16_t sp_pointer) {
+    app.OnSongPosition(sp_pointer);   // lauterZEIT
+    }
+    
   static void Clock() {
     app.OnClock();
   }

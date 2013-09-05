@@ -36,6 +36,8 @@ class SyncLatch {
   static void OnInit();
   static void OnRawByte(uint8_t byte);
 
+  static void OnSongPosition(uint16_t spp);     // lauterZEIT
+  static void OnContinue(); // lauterZEIT
   static void OnStart();
   static void OnStop();
   static void OnClock();

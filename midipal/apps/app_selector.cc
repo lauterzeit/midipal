@@ -49,6 +49,7 @@ const prog_AppInfo AppSelector::app_info_ PROGMEM = {
   NULL, // void (*OnProgramChange)(uint8_t, uint8_t);
   NULL, // void (*OnPitchBend)(uint8_t, uint16_t);
   NULL, // void (*OnSysExByte)(uint8_t);
+  NULL, // void (*OnSongPosition)(uint16_t);    // lauterZEIT
   NULL, // void (*OnClock)();
   NULL, // void (*OnStart)();
   NULL, // void (*OnContinue)();

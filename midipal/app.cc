@@ -106,7 +106,9 @@ const AppInfo* registry[] = {
   &apps::Controller::app_info_,
 
   &apps::DrumPatternGenerator::app_info_,
+#ifndef USE_SPP
   &apps::Randomizer::app_info_,
+#endif 
   &apps::ChordMemory::app_info_,
   &apps::Arpeggiator::app_info_,
   &apps::Delay::app_info_,

@@ -47,6 +47,7 @@ const prog_AppInfo Monitor::app_info_ PROGMEM = {
   &OnProgramChange, // void (*OnProgramChange)(uint8_t, uint8_t);
   &OnPitchBend, // void (*OnPitchBend)(uint8_t, uint16_t);
   &OnSysExByte, // void (*OnSysExByte)(uint8_t);
+  NULL, // void (*OnSongPosition)(uint16_t);    // lauterZEIT
   &OnClock, // void (*OnClock)();
   &OnStart, // void (*OnStart)();
   &OnContinue, // void (*OnContinue)();
