@@ -25,8 +25,11 @@
 namespace midipal { namespace apps {
 
 enum SyncState {
+  STATE_IDLE = 0,
   STATE_RUNNING = 1,
-  STATE_ARMED = 2
+  STATE_ARMED = 2,
+  STATE_CUE = 4,
+  STATE_STRICT = 8
 };
 
 class SyncLatch {
@@ -36,7 +39,8 @@ class SyncLatch {
   static void OnInit();
   static void OnRawByte(uint8_t byte);
 
-  static void OnSongPosition(uint16_t spp);     // lauterZEIT
+  static void OnControlChange(uint8_t, uint8_t, uint8_t);
+  static void OnSongPosition(uint16_t spp);  // lauterZEIT
   static void OnContinue(); // lauterZEIT
   static void OnStart();
   static void OnStop();
@@ -52,7 +56,12 @@ class SyncLatch {
   static uint8_t beat_division_;
   static uint8_t beat_counter_;
   static uint8_t step_counter_;
+  static uint8_t q_beat_count_;
+  static uint8_t q_step_count_;
+  static uint8_t mute_byte_count_;
   static uint8_t state_;
+  static uint8_t master_state_;
+    
   
   DISALLOW_COPY_AND_ASSIGN(SyncLatch);
 };

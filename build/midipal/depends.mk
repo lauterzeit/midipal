@@ -363,10 +363,10 @@ build/midipal/splitter.o: midipal/apps/splitter.cc \
 build/midipal/sync_latch.o: midipal/apps/sync_latch.cc \
   midipal/apps/sync_latch.h midipal/app.h avrlib/base.h \
   midipal/resources.h avrlib/resources_manager.h avrlib/op.h \
-  avrlib/string.h midipal/display.h avrlib/devices/buffered_display.h \
-  avrlib/log2.h avrlib/time.h avrlib/devices/hd44780_lcd.h \
-  avrlib/software_serial.h avrlib/avrlib.h avrlib/size_to_type.h \
-  avrlib/gpio.h avrlib/timer.h avrlib/ring_buffer.h \
+  avrlib/string.h midi/midi.h midipal/display.h \
+  avrlib/devices/buffered_display.h avrlib/log2.h avrlib/time.h \
+  avrlib/devices/hd44780_lcd.h avrlib/software_serial.h avrlib/avrlib.h \
+  avrlib/size_to_type.h avrlib/gpio.h avrlib/timer.h avrlib/ring_buffer.h \
   midipal/hardware_config.h avrlib/parallel_io.h avrlib/serial.h \
   midipal/ui.h avrlib/devices/pot_scanner.h avrlib/adc.h \
   avrlib/devices/rotary_encoder.h avrlib/devices/switch.h \
