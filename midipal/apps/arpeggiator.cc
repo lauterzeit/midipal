@@ -161,6 +161,11 @@ void Arpeggiator::OnSongPosition(uint16_t spp) {
       
     bitmask_ = 1 << bitmask_;
     current_octave_ == 127;
+    current_direction_ = (direction_ == ARPEGGIO_DIRECTION_DOWN ? -1 : 1);
+
+    recording_ = 0;  // ?
+      
+    StartArpeggio(); //? 
   }
 }
     
